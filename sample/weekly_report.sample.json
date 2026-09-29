@@ -2,20 +2,20 @@
   "meta": {
     "start_date": "2026-09-21",
     "end_date": "2026-09-25",
-    "calculation_method": "Sep 18 close to Sep 25 close for week-over-week ETF comparison"
+    "calculation_method": "Previous available trading close before Sep 21 to Sep 25 close"
   },
-  "one_line_week": "Mega-cap technology led a positive week while small caps lagged.",
+  "one_line_week": "Mega-cap technology led a positive week while small caps and market breadth lagged.",
   "benchmarks": [
-    {"symbol": "QQQ", "start_close": 721.45, "end_close": 744.50, "return_pct": 3.19},
-    {"symbol": "MAGS", "start_close": 70.46, "end_close": 72.64, "return_pct": 3.09},
-    {"symbol": "SPY", "start_close": 761.69, "end_close": 771.35, "return_pct": 1.27},
-    {"symbol": "DIA", "start_close": 515.88, "end_close": 517.49, "return_pct": 0.31},
-    {"symbol": "IWM", "start_close": 284.10, "end_close": 281.97, "return_pct": -0.75}
+    {"symbol": "QQQ", "start_close": 721.45, "end_close": 744.50, "return_pct": 3.19, "baseline_date": "2026-09-18", "end_date": "2026-09-25"},
+    {"symbol": "MAGS", "start_close": 70.46, "end_close": 72.64, "return_pct": 3.09, "baseline_date": "2026-09-18", "end_date": "2026-09-25"},
+    {"symbol": "SPY", "start_close": 761.69, "end_close": 771.35, "return_pct": 1.27, "baseline_date": "2026-09-18", "end_date": "2026-09-25"},
+    {"symbol": "DIA", "start_close": 515.88, "end_close": 517.49, "return_pct": 0.31, "baseline_date": "2026-09-18", "end_date": "2026-09-25"},
+    {"symbol": "IWM", "start_close": 284.10, "end_close": 281.97, "return_pct": -0.75, "baseline_date": "2026-09-18", "end_date": "2026-09-25"}
   ],
   "highlights": [
     "QQQ and MAGS materially outperformed the broad market.",
     "IWM finished the week lower, showing weaker small-cap participation.",
-    "Friday ended stronger as oil and yields eased from the week’s extremes."
+    "Technology led sectors while energy and utilities declined."
   ],
   "benchmark_takeaways": [
     "Growth leadership was clear: QQQ +3.19% versus SPY +1.27%.",
@@ -30,43 +30,70 @@
   ],
   "leadership_notes": [
     "The strongest configured baskets were technology-heavy.",
-    "Headline index gains masked weaker participation in small caps."
+    "Headline index gains masked weaker participation across many individual stocks."
   ],
-  "movers": {"gainers": [], "losers": [], "shock_moves": []},
-  "sectors": [],
-  "sector_notes": [],
-  "breadth": {"positive_pct": 40, "new_highs": 3, "new_lows": 32},
+  "movers": {
+    "gainers": [
+      {"symbol": "MRNA", "return_pct": 28.8},
+      {"symbol": "DDOG", "return_pct": 17.5},
+      {"symbol": "IONQ", "return_pct": 16.2}
+    ],
+    "losers": [
+      {"symbol": "PARA", "return_pct": -25.7},
+      {"symbol": "MGM", "return_pct": -14.1}
+    ],
+    "shock_moves": []
+  },
+  "sectors": [
+    {"symbol": "Information Technology", "return_pct": 3.08},
+    {"symbol": "Communication Services", "return_pct": 2.22},
+    {"symbol": "Health Care", "return_pct": 1.58},
+    {"symbol": "Industrials", "return_pct": 0.37},
+    {"symbol": "Materials", "return_pct": 0.22},
+    {"symbol": "Consumer Staples", "return_pct": -0.04},
+    {"symbol": "Consumer Discretionary", "return_pct": -0.66},
+    {"symbol": "Real Estate", "return_pct": -1.45},
+    {"symbol": "Financials", "return_pct": -1.64},
+    {"symbol": "Energy", "return_pct": -3.07},
+    {"symbol": "Utilities", "return_pct": -3.54}
+  ],
+  "sector_notes": [
+    "Information Technology was the strongest S&P 500 sector for the week.",
+    "Utilities and Energy were the weakest sectors."
+  ],
+  "breadth": {"positive_pct": 39, "new_highs": 3, "new_lows": 32},
   "breadth_title": "Breadth was weaker than the headline indices",
   "breadth_notes": [
     "MarketWatch reported 302 of 503 S&P 500 constituents down for the week.",
-    "Friday breadth improved, but weekly participation remained narrow."
+    "A separate tracked-stock universe showed only 39% of stocks advancing."
   ],
   "macro": [
     {"label": "VIX", "display_value": "14.87", "change_pct": null},
-    {"label": "10Y Treasury", "display_value": "~5.2%", "change_pct": null},
-    {"label": "Brent oil", "display_value": "Eased Friday", "change_pct": null}
+    {"label": "10Y Treasury", "display_value": "5.17%", "change_pct": null},
+    {"label": "WTI crude", "display_value": "$92.70", "change_pct": -6.86},
+    {"label": "Gold", "display_value": "$4,321.30", "change_pct": 0.54}
   ],
   "macro_notes": [
-    "Bond yields remained near multi-decade highs.",
-    "Oil volatility stayed a key inflation and risk-sentiment input."
+    "The 10-year Treasury yield rose from roughly 5.01% to 5.17% over the week.",
+    "Crude fell sharply while gold finished modestly higher."
   ],
   "technical": [
-    {"label": "S&P 500", "value": "Within ~0.7% of record high on Friday"}
+    {"label": "S&P 500", "value": "Closed at 7,743.41, near its record high"}
   ],
   "technical_notes": [
-    "No support/resistance levels were inferred; only sourced technical context is shown."
+    "No support/resistance levels were inferred; only sourced context is shown."
   ],
   "drivers": [
     {"title": "AI leadership", "detail": "Microsoft rose 3.7% Friday after new Copilot features and AI-linked stocks helped lead the rebound."},
-    {"title": "Oil reprieve", "detail": "A Friday pullback in crude reduced some immediate inflation pressure."},
-    {"title": "Yield volatility", "detail": "The 10-year Treasury yield traded near 19-year highs, keeping pressure on rate-sensitive assets."}
+    {"title": "Oil reprieve", "detail": "A late-week pullback in crude eased some immediate inflation pressure."},
+    {"title": "Yield volatility", "detail": "The 10-year Treasury yield reached levels around 5.2%, keeping pressure on rate-sensitive assets."}
   ],
   "risks": [
     {"title": "Bond yields", "detail": "Persistently high yields remain a valuation and financing headwind."},
     {"title": "Oil / geopolitics", "detail": "Energy prices remained sensitive to U.S.–Iran developments."},
-    {"title": "Fed path", "detail": "Markets were assigning meaningful probability to another near-term rate increase."}
+    {"title": "Next earnings", "detail": "Micron and Nike were among the notable earnings reports on the following week’s calendar."}
   ],
-  "sources": ["Reuters", "AP", "StockAnalysis", "MarketWatch"],
+  "sources": ["Reuters", "AP", "MarketWatch", "LPL Research", "StockDNA", "StockAnalysis"],
   "final_takeaway": {
     "market_regime": "Positive but narrow",
     "leadership": "Mega-cap tech / AI",
