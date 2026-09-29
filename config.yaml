@@ -1,0 +1,49 @@
+provider: massive
+api_key_env: MASSIVE_API_KEY
+output_dir: ./data
+default_start: "2024-01-01"
+
+groups:
+  benchmarks:
+    asset_class: benchmark
+    currency: USD
+    tickers:
+      - canonical: SPY
+      - canonical: QQQ
+      - canonical: DIA
+      - canonical: IWM
+      - canonical: MAGS
+
+  crypto:
+    asset_class: crypto
+    currency: USD
+    tickers:
+      - canonical: BTC
+        massive: X:BTCUSD
+      - canonical: ETH
+        massive: X:ETHUSD
+
+  fx:
+    asset_class: fx
+    tickers:
+      - canonical: USDILS
+        massive: C:USDILS
+        currency: ILS
+
+  commodities:
+    asset_class: commodity
+    currency: USD
+    tickers:
+      - canonical: GOLD
+        massive: GC=F
+      - canonical: SILVER
+        massive: SI=F
+      - canonical: OIL
+        massive: BZ=F
+
+  macro:
+    asset_class: macro
+    currency: USD
+    tickers:
+      - canonical: VIX
+        massive: I:VIX
