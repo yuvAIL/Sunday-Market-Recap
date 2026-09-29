@@ -1,0 +1,18 @@
+{
+  "drivers": [
+    {
+      "title": "Verified driver headline",
+      "detail": "One concise sentence based on a verified news source."
+    }
+  ],
+  "risks": [
+    {
+      "title": "Verified watch item",
+      "detail": "One concise sentence describing the event or risk without predicting direction."
+    }
+  ],
+  "extra_sources": [
+    "Reuters",
+    "AP"
+  ]
+}
