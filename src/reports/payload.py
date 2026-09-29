@@ -13,6 +13,8 @@ def _rows(stats: list[WeeklyStat] | None) -> list[dict[str, Any]]:
             "start_close": stat.start_close,
             "end_close": stat.end_close,
             "return_pct": stat.return_pct,
+            "baseline_date": stat.baseline_date.isoformat() if stat.baseline_date else None,
+            "end_date": stat.end_date.isoformat() if stat.end_date else None,
         }
         for stat in rank_week(stats or [])
     ]
@@ -98,6 +100,8 @@ def build_weekly_payload(
                 "end_close": stat.end_close,
                 "display_value": f"{stat.end_close:,.2f}",
                 "change_pct": stat.return_pct,
+                "baseline_date": stat.baseline_date.isoformat() if stat.baseline_date else None,
+                "end_date": stat.end_date.isoformat() if stat.end_date else None,
             }
         )
 
@@ -130,7 +134,7 @@ def build_weekly_payload(
             "start_date": start.isoformat(),
             "end_date": end.isoformat(),
             "generated_at": datetime.now(timezone.utc).isoformat(),
-            "calculation_method": "first available close to last available close in requested period",
+            "calculation_method": "previous available trading close before start date to final available close in requested week; falls back to first in-period close if no prior history exists",
         },
         "one_line_week": one_line,
         "benchmarks": benchmark_rows,
@@ -150,7 +154,7 @@ def build_weekly_payload(
         "breadth_notes": breadth_notes,
         "macro": macro_rows,
         "macro_notes": [
-            "Cross-asset changes use the same first-available-close to last-available-close method."
+            "Cross-asset weekly changes use the same previous-close-to-week-end method."
         ] if macro_rows else [],
         "technical": technical or [],
         "technical_notes": [
