@@ -1,20 +1,70 @@
-# Sunday Market Recap — Data Puller
+# Sunday Market Recap
 
-A Python prototype for the deterministic data layer behind a weekly U.S. market recap. I built it as an AI-assisted/vibe-coding project with Claude, with a deliberate separation between factual market data and any later LLM-generated narrative.
+A deterministic-first Python project for generating a weekly U.S. market recap from structured market data.
+
+The core product principle is simple: **financial data and calculations come from APIs/code; AI is allowed later for wording, hierarchy and presentation — never for inventing numbers.**
+
+The original product notes defined the long-term flow as:
+
+```text
+Data Puller → Structured Data → Analytics / Ranking → AI Summary → Newsletter → Presentation
+```
+
+The repository now implements the data layer, baseline weekly analytics, a structured report payload and a PowerPoint presentation renderer.
 
 ## What it does
 
-The project pulls historical daily OHLCV data from the Massive API for a configurable universe of benchmarks, crypto, FX, commodities and other instruments. It normalizes the data into one schema, stores it as Parquet, and supports re-runnable incremental updates.
-
-The design principle is simple: **data and calculations should come from APIs/code; AI should be used later for summarization and presentation.**
+- Pulls historical daily OHLCV data from the Massive API.
+- Supports configurable benchmarks, crypto, FX, commodities and additional symbol groups.
+- Normalizes all bars into one schema and stores them in Parquet.
+- Supports incremental re-runs.
+- Computes weekly returns deterministically.
+- Builds a structured JSON presentation payload.
+- Renders an 11-slide `.pptx` market recap.
+- Includes a detailed master prompt for an optional AI/NotebookLM-style presentation editing layer.
+- Runs automated tests through GitHub Actions.
 
 ## Architecture
 
 ```text
-config.yaml → SymbolRegistry → DataPuller → MassiveClient → LocalStorage
-                                      ↕
-                              incremental gap logic
+Massive API
+    ↓
+Data Puller
+    ↓
+Normalized Parquet Store
+    ↓
+Weekly Analytics
+    ↓
+Structured weekly_report.json
+    ├──→ PowerPoint renderer → weekly_recap.pptx
+    └──→ Presentation master prompt / future AI rendering layer
 ```
+
+## Presentation structure
+
+The renderer is designed around the original Sunday Market Recap vision:
+
+1. Week at a Glance
+2. Major Benchmarks
+3. Leadership & Relative Performance
+4. Top Movers
+5. Sector Performance
+6. Breadth / Participation
+7. Macro & Cross-Asset Dashboard
+8. Technical Context
+9. What Drove the Week
+10. Risks / What to Watch
+11. Final Takeaway
+
+Missing sections are explicitly labeled rather than guessed.
+
+The reconstructed/expanded presentation prompt is stored at:
+
+```text
+prompts/presentation_master.md
+```
+
+## Project structure
 
 ```text
 sunday-market-recap/
@@ -22,20 +72,24 @@ sunday-market-recap/
 ├── config.yaml
 ├── requirements.txt
 ├── .env.example
+├── prompts/
+│   └── presentation_master.md
+├── sample/
+│   └── weekly_report.sample.json
+├── scripts/
+│   ├── build_presentation.py
+│   └── generate_weekly_recap.py
 └── src/
-    ├── clients/      # provider abstraction + Massive implementation
-    ├── config/       # config loader + symbol registry
-    ├── models/       # normalized OHLCV model
-    ├── pipelines/    # fetch/orchestration logic
-    ├── storage/      # Parquet storage + gap detection
-    └── utils/        # logging
+    ├── analytics/
+    ├── clients/
+    ├── config/
+    ├── models/
+    ├── pipelines/
+    ├── presentation/
+    ├── reports/
+    ├── storage/
+    └── utils/
 ```
-
-## Normalized schema
-
-Each daily bar stores:
-
-`symbol`, `asset_class`, `provider`, `provider_symbol`, `date`, `open`, `high`, `low`, `close`, `volume`, `adjusted_close`, `currency`, `fetched_at`.
 
 ## Setup
 
@@ -54,43 +108,78 @@ MASSIVE_API_KEY=your_api_key_here
 
 Never commit `.env`.
 
-## Usage
+## 1. Pull market data
 
-List configured symbols without making an API request:
+List configured symbols:
 
 ```bash
 python main.py --list-groups
 ```
 
-Pull everything:
+Pull all configured data:
 
 ```bash
 python main.py
 ```
 
-Pull one group or symbol:
+Or pull a selected group/symbol:
 
 ```bash
 python main.py --group benchmarks
 python main.py --symbol SPY --start 2026-01-01 --end 2026-03-31
 ```
 
-## Why I built it this way
+## 2. Generate the weekly recap + PowerPoint
 
-My first instinct was to let the AI do too much of the market recap directly. That made reliability the weak point: financial values can vary by source, timeframe or interpretation, and an LLM can fill gaps too confidently.
+After the Parquet data exists:
 
-I moved the factual layer into code and an external market-data API. The LLM belongs later in the pipeline, where it can turn already-validated structured data into summaries and presentation copy.
+```bash
+python scripts/generate_weekly_recap.py --start 2026-09-21 --end 2026-09-25
+```
 
-## Current scope / limitations
+This creates:
 
-This repository is the **data-ingestion prototype**, not the complete newsletter product. It intentionally stops before analytics, LLM rendering and scheduled delivery. Some provider symbols and asset classes may require plan-specific Massive support or config changes.
+```text
+output/2026-09-21_to_2026-09-25/
+├── weekly_report.json
+└── weekly_recap.pptx
+```
 
-Planned next layers:
+When dates are omitted, the CLI selects the most recent completed Monday–Friday block.
 
-1. Analytics: period returns, gainers/losers, shock moves and benchmark comparisons.
-2. AI rendering: generate a concise weekly narrative from structured JSON.
-3. Presentation: HTML/PDF market report.
-4. Delivery: scheduled Sunday run and email/newsletter output.
+## 3. Render any structured report JSON
+
+```bash
+python scripts/build_presentation.py \
+  --input sample/weekly_report.sample.json \
+  --output output/sample_recap.pptx
+```
+
+The sample payload demonstrates richer sections such as breadth, macro context, drivers and risks. Those fields should only be populated by verified data/research in a real run.
+
+## Deterministic data rules
+
+The project intentionally separates facts from narrative:
+
+- Price/return calculations are code-driven.
+- Rankings are code-driven.
+- Daily and weekly moves must be labeled separately.
+- Missing sector/breadth/technical data stays missing.
+- Support/resistance is never inferred by the presentation renderer.
+- AI may rewrite or compress verified text, but it should not change financial values.
+
+## Current limitations
+
+The configured universe is still relatively small. A full production weekly deck needs additional deterministic inputs for:
+
+- broad stock-mover universe,
+- sector returns,
+- market breadth,
+- moving-average/technical metrics,
+- rates and selected macro series,
+- verified news/event drivers.
+
+The presentation architecture already supports these fields; the next engineering step is expanding the data/analytics layer that feeds them.
 
 ## Tests
 
@@ -99,4 +188,4 @@ pip install -r requirements-dev.txt
 pytest -q
 ```
 
-The repository also includes a small GitHub Actions workflow that runs the test suite on pushes and pull requests.
+GitHub Actions runs the test suite on pushes and pull requests.
