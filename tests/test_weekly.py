@@ -6,17 +6,31 @@ from src.analytics.weekly import rank_week, weekly_return
 from src.reports.weekly import render_markdown
 
 
-def test_weekly_return_uses_first_and_last_available_close():
+def test_weekly_return_uses_prior_trading_close_when_available():
     df = pd.DataFrame(
         [
+            {"date": "2026-09-18", "close": 98.0},
             {"date": "2026-09-21", "close": 100.0},
             {"date": "2026-09-23", "close": 103.0},
             {"date": "2026-09-25", "close": 105.0},
         ]
     )
     stat = weekly_return(df, "TEST", date(2026, 9, 21), date(2026, 9, 25))
-    assert stat.start_close == 100.0
+    assert stat.start_close == 98.0
     assert stat.end_close == 105.0
+    assert stat.baseline_date == date(2026, 9, 18)
+    assert round(stat.return_pct, 2) == 7.14
+
+
+def test_weekly_return_falls_back_to_first_in_period_close():
+    df = pd.DataFrame(
+        [
+            {"date": "2026-09-21", "close": 100.0},
+            {"date": "2026-09-25", "close": 105.0},
+        ]
+    )
+    stat = weekly_return(df, "TEST", date(2026, 9, 21), date(2026, 9, 25))
+    assert stat.start_close == 100.0
     assert round(stat.return_pct, 2) == 5.00
 
 
