@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "start_date": "2026-09-21",
+    "end_date": "2026-09-25",
+    "calculation_method": "Sep 18 close to Sep 25 close for week-over-week ETF comparison"
+  },
+  "one_line_week": "Mega-cap technology led a positive week while small caps lagged.",
+  "benchmarks": [
+    {"symbol": "QQQ", "start_close": 721.45, "end_close": 744.50, "return_pct": 3.19},
+    {"symbol": "MAGS", "start_close": 70.46, "end_close": 72.64, "return_pct": 3.09},
+    {"symbol": "SPY", "start_close": 761.69, "end_close": 771.35, "return_pct": 1.27},
+    {"symbol": "DIA", "start_close": 515.88, "end_close": 517.49, "return_pct": 0.31},
+    {"symbol": "IWM", "start_close": 284.10, "end_close": 281.97, "return_pct": -0.75}
+  ],
+  "highlights": [
+    "QQQ and MAGS materially outperformed the broad market.",
+    "IWM finished the week lower, showing weaker small-cap participation.",
+    "Friday ended stronger as oil and yields eased from the week’s extremes."
+  ],
+  "benchmark_takeaways": [
+    "Growth leadership was clear: QQQ +3.19% versus SPY +1.27%.",
+    "Small caps diverged: IWM -0.75% for the week."
+  ],
+  "leadership_title": "Mega-cap tech carried the week",
+  "relative_performance": [
+    {"label": "QQQ vs SPY", "value_pct": 1.92},
+    {"label": "MAGS vs SPY", "value_pct": 1.82},
+    {"label": "IWM vs SPY", "value_pct": -2.02},
+    {"label": "DIA vs SPY", "value_pct": -0.96}
+  ],
+  "leadership_notes": [
+    "The strongest configured baskets were technology-heavy.",
+    "Headline index gains masked weaker participation in small caps."
+  ],
+  "movers": {"gainers": [], "losers": [], "shock_moves": []},
+  "sectors": [],
+  "sector_notes": [],
+  "breadth": {"positive_pct": 40, "new_highs": 3, "new_lows": 32},
+  "breadth_title": "Breadth was weaker than the headline indices",
+  "breadth_notes": [
+    "MarketWatch reported 302 of 503 S&P 500 constituents down for the week.",
+    "Friday breadth improved, but weekly participation remained narrow."
+  ],
+  "macro": [
+    {"label": "VIX", "display_value": "14.87", "change_pct": null},
+    {"label": "10Y Treasury", "display_value": "~5.2%", "change_pct": null},
+    {"label": "Brent oil", "display_value": "Eased Friday", "change_pct": null}
+  ],
+  "macro_notes": [
+    "Bond yields remained near multi-decade highs.",
+    "Oil volatility stayed a key inflation and risk-sentiment input."
+  ],
+  "technical": [
+    {"label": "S&P 500", "value": "Within ~0.7% of record high on Friday"}
+  ],
+  "technical_notes": [
+    "No support/resistance levels were inferred; only sourced technical context is shown."
+  ],
+  "drivers": [
+    {"title": "AI leadership", "detail": "Microsoft rose 3.7% Friday after new Copilot features and AI-linked stocks helped lead the rebound."},
+    {"title": "Oil reprieve", "detail": "A Friday pullback in crude reduced some immediate inflation pressure."},
+    {"title": "Yield volatility", "detail": "The 10-year Treasury yield traded near 19-year highs, keeping pressure on rate-sensitive assets."}
+  ],
+  "risks": [
+    {"title": "Bond yields", "detail": "Persistently high yields remain a valuation and financing headwind."},
+    {"title": "Oil / geopolitics", "detail": "Energy prices remained sensitive to U.S.–Iran developments."},
+    {"title": "Fed path", "detail": "Markets were assigning meaningful probability to another near-term rate increase."}
+  ],
+  "sources": ["Reuters", "AP", "StockAnalysis", "MarketWatch"],
+  "final_takeaway": {
+    "market_regime": "Positive but narrow",
+    "leadership": "Mega-cap tech / AI",
+    "key_tension": "Strong headline indices vs weak breadth and high yields",
+    "summary": "The week finished higher, but leadership was concentrated and the macro backdrop remained demanding."
+  }
+}
