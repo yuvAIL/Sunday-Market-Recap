@@ -12,18 +12,18 @@ The factual layer is authoritative.
 
 - Raw prices, returns, rankings, volume, breadth, technical levels and dates come from APIs/code.
 - Never invent, estimate, interpolate or “fill in” a missing number.
-- Never change the timeframe used by the input data.
+- Never change the timeframe or calculation method used by the input data.
 - If a requested field is absent, write **Not available** or omit the visual.
 - AI may improve wording, hierarchy, titles and captions. It may not alter the facts.
 - Prefer **WHAT happened** over long explanations of **WHY** it happened.
 
-## Timeframe
+## Timeframe and return methodology
 
 The report covers one completed U.S. trading week.
 
-Use the exact `start_date` and `end_date` supplied in the input JSON. For weekly return calculations, use the first available close in the requested period and the final available close in the requested period, unless a different calculation method is explicitly supplied by the data layer.
+Use the exact `start_date`, `end_date` and `calculation_method` supplied in the input JSON. The current deterministic pipeline uses the previous available trading close before the start date as the weekly-return baseline and the final available close in the requested week as the endpoint. If the data layer supplies another explicitly labeled methodology, preserve it exactly.
 
-Always display the exact report dates on the title slide.
+Always display the exact report dates on the title slide. Never silently convert a daily return, Monday-to-Friday move or intraday move into a weekly return.
 
 ## Audience
 
@@ -112,7 +112,7 @@ For each stock show:
 
 Also flag `shock moves` separately when the input marks them.
 
-Never describe a Friday move as a weekly move unless the data explicitly says it is weekly.
+Never describe a daily move as a weekly move unless the data explicitly says it is weekly.
 
 ### Slide 5 — Sector Performance
 
@@ -158,7 +158,7 @@ Use only technical metrics supplied by code.
 Examples:
 - distance from 52-week high,
 - 20/50/150/200-day moving averages,
-- major support/resistance levels,
+- major support/resistance levels only if explicitly supplied by a deterministic/verified input,
 - gaps,
 - unusual volume,
 - volatility regime.
@@ -206,7 +206,7 @@ Before finalizing, verify:
 1. Every number appears in the structured input or is a deterministic calculation from it.
 2. Every ranked list is sorted correctly.
 3. Daily and weekly moves are clearly distinguished.
-4. Dates are correct and consistent.
+4. Dates and return baselines are correct and consistent.
 5. Missing data is labeled rather than guessed.
 6. The text does not contradict the charts.
 7. No slide implies a causal relationship that is unsupported by the supplied drivers/sources.
